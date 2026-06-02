@@ -1,0 +1,73 @@
+import { ObjectId } from "mongodb";
+import { ESTADOS_RESERVA } from "../../constants/index.js";
+import CnxMongoDB from "../../DBMongo.js";
+
+class ReservasMongoDB {
+  constructor() {}
+
+  obtenerReservas = async () => {
+    if (!CnxMongoDB.connectionOK)
+      throw new Error("Error de conexión a base de datos");
+    return await CnxMongoDB.db.collection("reservas").find({}).toArray();
+  };
+
+  obtenerReserva = async (id) => {
+    if (!CnxMongoDB.connectionOK)
+      throw new Error("Error de conexión a base de datos");
+
+    const reserva = await CnxMongoDB.db.collection("reservas").findOne({
+      _id: new ObjectId(id),
+    });
+
+    return reserva || {};
+  };
+
+  guardarReserva = async (reserva) => {
+    if (!CnxMongoDB.connectionOK)
+      throw new Error("Error de conexión a base de datos");
+
+    await CnxMongoDB.db.collection("reservas").insertOne(reserva);
+    return reserva;
+  };
+
+  buscarColisionExistente = async (mentorId, studentId, fechaHora) => {
+    if (!CnxMongoDB.connectionOK)
+      throw new Error("Error de conexión a base de datos");
+
+    return await CnxMongoDB.db.collection("reservas").findOne({
+      // El estado no debe estar cancelado
+      estado: { $ne: ESTADOS_RESERVA.CANCELADA },
+      // El horario debe ser el mismo
+      fechaHora: new Date(fechaHora),
+      // Que el mentor este ocupado O que el alumno este ocupado
+      $or: [{ mentorId: mentorId }, { studentId: studentId }],
+    });
+  };
+
+  cancelarReserva = async (id) => {
+    if (!CnxMongoDB.connectionOK)
+      throw new Error("Error de conexión a base de datos");
+
+    await CnxMongoDB.db
+      .collection("reservas")
+      .updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { estado: ESTADOS_RESERVA.CANCELADA } },
+      );
+    return await this.obtenerReserva(id);
+  };
+
+  // borrarReserva = async (id) => {
+  //   if (!CnxMongoDB.connectionOK)
+  //     throw new Error("Error de conexión a base de datos");
+
+  //   const reservaEliminado = await this.obtenerReserva(id);
+  //   await CnxMongoDB.db.collection("reservas").deleteOne({
+  //     _id: new ObjectId(id),
+  //   });
+
+  //   return reservaEliminado;
+  // };
+}
+
+export default ReservasMongoDB;
