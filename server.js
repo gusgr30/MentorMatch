@@ -1,17 +1,14 @@
 import express from "express";
-import RouterMentor from "./router/mentor.js";
 import RouterReservas from "./router/reservas.js";
 import RouterUsuarios from "./router/usuarios.js";
 
 class Server {
   #port;
-  #routerMentor;
   #routerReserva;
   #routerUsuarios;
 
   constructor(port) {
     this.#port = port;
-    this.#routerMentor = new RouterMentor().config();
     this.#routerReserva = new RouterReservas().config();
     this.#routerUsuarios = new RouterUsuarios().config();
   }
@@ -24,7 +21,6 @@ class Server {
     app.use(express.static("public/"));
     app.use("/uploads", express.static("uploads"));
 
-    app.use("/api/mentores", this.#routerMentor);
     app.use("/api/reservas", this.#routerReserva);
     app.use("/api/usuarios", this.#routerUsuarios);
 

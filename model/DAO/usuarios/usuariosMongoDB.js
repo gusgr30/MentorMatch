@@ -29,10 +29,18 @@ class UsuariosMongoDB {
     if (!CnxMongoDB.connectionOK) {
       throw new Error("Error de conexión a base de datos");
     }
-    const usuarioGuardado = await CnxMongoDB.db
-      .collection("usuarios")
-      .insertOne(usuario);
-    return usuarioGuardado;
+    try{
+      const usuarioGuardado = await CnxMongoDB.db
+        .collection("usuarios")
+        .insertOne(usuario);
+      return usuarioGuardado;
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new Error("Ya existe un usuario registrado con ese email")
+      }
+
+      throw error
+    }
   };
 
   actualizarUsuario = async (id, datosAActualizar) => {
