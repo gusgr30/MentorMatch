@@ -1,4 +1,5 @@
 import config from "../config.js";
+import { ESTADOS_RESERVA } from "../model/constants/index.js";
 import ReservasFactory from "../model/DAO/reservas/reservasFactory.js";
 import Reserva from "../model/Reserva.js";
 import UsuarioServicio from "./usuario.js";
@@ -70,6 +71,23 @@ class ReservaServicio {
     const reservaCancelada = await this.#modelo.cancelarReserva(id);
     return reservaCancelada;
   };
+
+  confirmarReserva = async (id, urlZoom) => {
+    const reserva = await this.#modelo.obtenerReserva(id)
+    if(!reserva || !reserva._id){
+      const error = new Error("La reserva no existe")
+      error.status = 404
+      throw error
+    }
+    if(reserva.estado !== ESTADOS_RESERVA.PENDIENTE){
+      const error = new Error("La reserva ya fue confirmada o cancelada")
+      error.status = 400
+      throw error
+    }
+
+    const reservaConfirmada = await this.#modelo.confirmarReserva(id, urlZoom)
+    return reservaConfirmada
+  }
 
   // borrarReserva = async (id) => {
   //   const reservaEliminado = await this.#modelo.borrarReserva(id);

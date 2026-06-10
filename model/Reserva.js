@@ -6,12 +6,13 @@ class Reserva {
     studentId,
     mentorId,
     fechaHora,
-    estado = ESTADOS_RESERVA.PENDIENTE,
+    estado = ESTADOS_RESERVA.PENDIENTE
   }) {
     this.studentId = studentId;
     this.mentorId = mentorId;
     this.fechaHora = fechaHora ? new Date(fechaHora) : null;
     this.estado = estado;
+    this.urlZoom = null
   }
 
   validar() {
@@ -46,6 +47,7 @@ class Reserva {
       mentorId: this.mentorId,
       fechaHora: this.fechaHora,
       estado: this.estado,
+      urlZoom: this.urlZoom
     };
   }
 }

@@ -46,6 +46,27 @@ class ReservaController {
     }
   };
 
+  confirmarReserva = async (req, res) => {
+    try {
+      const { id } = req.params
+      const { urlZoom } = req.body
+      
+      //DESPUES CUANDO TENGAMOS EL FRONT VAMOS A TENER QUE RECIBIR TAMBIEN EL JWT Y EVALUAR SI EL USUARIO ES MENTOR PARA PODER CONFIRMAR
+
+      if(!urlZoom){
+        const error = new Error("Debes ingresar el url de Zoom para confirmar")
+        error.status = 400
+        throw error
+      }
+      const reservaConfirmada = await this.#servicio.confirmarReserva(id, urlZoom);
+      res.json(reservaConfirmada);
+    } catch (error) {
+      res
+        .status(error.status || 500)
+        .json({ url: req.url, method: req.method, error: error.message });
+    }
+  };
+
   // borrarReserva = async (req, res) => {
   //   try {
   //     const { id } = req.params;

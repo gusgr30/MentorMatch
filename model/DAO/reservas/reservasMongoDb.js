@@ -15,6 +15,11 @@ class ReservasMongoDB {
     if (!CnxMongoDB.connectionOK)
       throw new Error("Error de conexión a base de datos");
 
+    if(!ObjectId.isValid(id)){
+      const error = new Error("El id no es válido")
+      error.status = 400
+      throw error
+    }
     const reserva = await CnxMongoDB.db.collection("reservas").findOne({
       _id: new ObjectId(id),
     });
@@ -53,6 +58,26 @@ class ReservasMongoDB {
       .updateOne(
         { _id: new ObjectId(id) },
         { $set: { estado: ESTADOS_RESERVA.CANCELADA } },
+      );
+    return await this.obtenerReserva(id);
+  };
+
+  confirmarReserva = async (id, urlZoom) => {
+    if (!CnxMongoDB.connectionOK){
+      const error = new Error("Error de conexión a base de datos");
+      error.status = 500
+      throw error
+    }
+
+    await CnxMongoDB.db
+      .collection("reservas")
+      .updateOne(
+        { _id: new ObjectId(id) },
+        { $set: { 
+            estado: ESTADOS_RESERVA.CONFIRMADA, 
+            urlZoom: urlZoom 
+          } 
+        },
       );
     return await this.obtenerReserva(id);
   };

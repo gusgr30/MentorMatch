@@ -13,7 +13,8 @@ class RouterReservas {
 
     router.get("{/:id}", this.#controlador.obtenerReservas);
     router.post("/", this.#controlador.guardarReserva);
-    router.put("/:id", this.#controlador.cancelarReserva);
+    router.put("/:id/cancelar", this.#controlador.cancelarReserva);
+    router.put("/:id/confirmar", this.#controlador.confirmarReserva);
     // router.delete("/:id", this.#controlador.borrarReserva);
 
     return router;
