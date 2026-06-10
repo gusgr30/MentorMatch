@@ -1,6 +1,7 @@
 import config from "../config.js";
 import UsuariosFactory from "../model/DAO/usuarios/usuariosFactory.js";
 import Usuario from "../model/Usuario.js";
+import bcrypt from "bcryptjs";
 
 class UsuarioServicio {
   #modelo = null;
@@ -22,6 +23,8 @@ class UsuarioServicio {
   guardarUsuario = async (usuario) => {
     const usuarioInstancia = new Usuario(usuario);
     usuarioInstancia.validar();
+    const passHasheada = await bcrypt.hash(usuarioInstancia.password, 10)   //usando bcrypt se hashea la contraseña, usando un salt rounds de 10
+    usuarioInstancia.password = passHasheada                                //se cambia la contraseña plana del usuario instanciado por el hash
     const usuarioGuardado = await this.#modelo.guardarUsuario(
       usuarioInstancia.get(),
     );
