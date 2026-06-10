@@ -24,6 +24,16 @@ class UsuariosMongoDB {
     });
     return usuario;
   };
+  
+  obtenerUsuarioPorEmail = async (email) => {
+    if (!CnxMongoDB.connectionOK) {
+      throw new Error("Error de conexión a base de datos");
+    }
+    const usuario = await CnxMongoDB.db.collection("usuarios").findOne({
+      email,
+    });
+    return usuario;
+  };
 
   guardarUsuario = async (usuario) => {
     if (!CnxMongoDB.connectionOK) {
