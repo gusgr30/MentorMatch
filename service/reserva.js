@@ -18,7 +18,25 @@ class ReservaServicio {
   obtenerReservas = async (id) => {
     if (id) {
       const reserva = await this.#modelo.obtenerReserva(id);
-      return reserva;
+
+      const mentor = await this.#usuarioServicio.obtenerUsuarios(
+        reserva.mentorId,
+      );
+      const student = await this.#usuarioServicio.obtenerUsuarios(
+        
+        reserva.studentId,
+      );      
+      
+      if (!mentor || !student) throw new Error("Usuarios de la reserva no encontrados")
+
+      const mentorObj = {nombre: mentor.nombre}
+      const studentObj = {nombre: student.nombre}
+
+      return {
+        mentorObj,
+        studentObj,
+        reserva
+      }
     }
     const reservas = await this.#modelo.obtenerReservas();
     return reservas;
@@ -75,11 +93,7 @@ class ReservaServicio {
 
     await Mailer.enviarNotificacionReserva(reservaGuardada, mentorObj, studentObj) 
 
-    return {
-      mentorObj,
-      studentObj,
-      reservaGuardada
-    }
+    return reservaGuardada
   };
 
   cancelarReserva = async (id) => {
