@@ -63,8 +63,15 @@ class ReservaServicio {
         );
       }
     }
+    const mentorObj = {nombre: mentor.nombre}
+    const studentObj = {nombre: student.nombre}
+    const reservaGuardada = await this.#modelo.guardarReserva(nuevaReserva);
 
-    return await this.#modelo.guardarReserva(nuevaReserva);
+    return {
+      mentorObj,
+      studentObj,
+      reservaGuardada
+    }
   };
 
   cancelarReserva = async (id) => {

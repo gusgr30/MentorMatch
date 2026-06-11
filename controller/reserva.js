@@ -25,8 +25,12 @@ class ReservaController {
       if (Object.keys(datosReserva).length === 0) {
         throw new Error("Los datos a actualizar están vacíos");
       }
-      const nuevaReserva = await this.#servicio.guardarReserva(datosReserva);
-      res.json(nuevaReserva);
+      const { mentorObj, studentObj, reservaGuardada } = await this.#servicio.guardarReserva(datosReserva);
+      res.json({
+        reservaGuardada,
+        mentorObj,
+        studentObj
+      });
     } catch (error) {
       res
         .status(500)
