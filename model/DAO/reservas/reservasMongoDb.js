@@ -27,6 +27,22 @@ class ReservasMongoDB {
     return reserva || {};
   };
 
+  obtenerReservasPorUsuario = async (userId) =>{
+    if (!CnxMongoDB.connectionOK)
+      throw new Error("Error de conexión a base de datos");
+
+    if(!ObjectId.isValid(userId)){
+      const error = new Error("El id no es válido")
+      error.status = 400
+      throw error
+    }
+    const reservas = await CnxMongoDB.db.collection("reservas").find({
+      $or: [{mentorId: userId}, {studentId: userId}]
+    }).toArray();
+
+    return reservas;
+  }
+
   guardarReserva = async (reserva) => {
     if (!CnxMongoDB.connectionOK)
       throw new Error("Error de conexión a base de datos");

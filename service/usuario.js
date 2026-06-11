@@ -30,7 +30,6 @@ class UsuarioServicio {
       usuarioInstancia.get(),
     );
     await Mailer.enviarBienvenida(usuarioInstancia.get())
-    console.log(usuarioGuardado)
     return usuarioGuardado;
   };
 

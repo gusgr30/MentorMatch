@@ -11,6 +11,7 @@ class RouterReservas {
   config() {
     const router = express.Router();
 
+    router.get("/usuario/:userId", this.#controlador.obtenerReservasPorUsuario);
     router.get("{/:id}", this.#controlador.obtenerReservas);
     router.post("/", this.#controlador.guardarReserva);
     router.put("/:id/cancelar", this.#controlador.cancelarReserva);

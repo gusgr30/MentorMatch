@@ -19,6 +19,17 @@ class ReservaController {
     }
   };
 
+  obtenerReservasPorUsuario = async (req, res) => {
+    try{
+      const { userId } = req.params
+      const reservas = await this.#servicio.obtenerReservasPorUsuario(userId)
+      res.json(reservas)
+
+    }catch(err){
+      res.status(err.status || 500).json({error: err.message})
+    }
+  }
+
   guardarReserva = async (req, res) => {
     try {
       const datosReserva = req.body;

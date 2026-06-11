@@ -3,6 +3,7 @@ import { ESTADOS_RESERVA } from "../model/constants/index.js";
 import ReservasFactory from "../model/DAO/reservas/reservasFactory.js";
 import Reserva from "../model/Reserva.js";
 import UsuarioServicio from "./usuario.js";
+import Mailer from "./email.js";
 
 class ReservaServicio {
   #modelo = null;
@@ -22,6 +23,11 @@ class ReservaServicio {
     const reservas = await this.#modelo.obtenerReservas();
     return reservas;
   };
+
+  obtenerReservasPorUsuario = async (userId) =>{
+    const reservas = await this.#modelo.obtenerReservasPorUsuario(userId)
+    return reservas
+  }
 
   guardarReserva = async (datosReserva) => {
     const reservaInstancia = new Reserva(datosReserva);
@@ -63,9 +69,11 @@ class ReservaServicio {
         );
       }
     }
-    const mentorObj = {nombre: mentor.nombre}
+    const mentorObj = {nombre: mentor.nombre, email: mentor.email}
     const studentObj = {nombre: student.nombre}
     const reservaGuardada = await this.#modelo.guardarReserva(nuevaReserva);
+
+    await Mailer.enviarNotificacionReserva(reservaGuardada, mentorObj, studentObj) 
 
     return {
       mentorObj,
@@ -93,6 +101,16 @@ class ReservaServicio {
     }
 
     const reservaConfirmada = await this.#modelo.confirmarReserva(id, urlZoom)
+
+    const mentor = await this.#usuarioServicio.obtenerUsuarios(reservaConfirmada.mentorId)
+    const student = await this.#usuarioServicio.obtenerUsuarios(reservaConfirmada.studentId)
+
+    const mentorObj = {nombre: mentor.nombre, email: mentor.email}
+    const studentObj = {nombre: student.nombre, email: student.email}
+
+
+    await Mailer.enviarConfirmacionReserva(reservaConfirmada, mentorObj, studentObj)
+
     return reservaConfirmada
   }
 
