@@ -1,5 +1,6 @@
 import UsuariosFactory from '../model/DAO/usuarios/usuariosFactory.js'
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 import config from '../config.js'
 
 class ServiceAuth {
@@ -27,7 +28,14 @@ class ServiceAuth {
             throw error
         }
 
+        const token = jwt.sign(
+            { id: usuario._id, email, rol },
+            config.JWT_SECRET,
+            { expiresIn: '24h' }
+        )
+
         return {
+            token,
             email,
             nombre,
             rol,
