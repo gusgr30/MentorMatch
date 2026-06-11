@@ -2,6 +2,7 @@ import config from "../config.js";
 import UsuariosFactory from "../model/DAO/usuarios/usuariosFactory.js";
 import Usuario from "../model/Usuario.js";
 import bcrypt from "bcryptjs";
+import Mailer from "./email.js";
 
 class UsuarioServicio {
   #modelo = null;
@@ -28,6 +29,8 @@ class UsuarioServicio {
     const usuarioGuardado = await this.#modelo.guardarUsuario(
       usuarioInstancia.get(),
     );
+    await Mailer.enviarBienvenida(usuarioInstancia.get())
+    console.log(usuarioGuardado)
     return usuarioGuardado;
   };
 

@@ -2,6 +2,8 @@ import express from "express";
 import RouterReservas from "./router/reservas.js";
 import RouterUsuarios from "./router/usuarios.js";
 import RouterAuth from "./router/auth.js";
+import cors from "cors";
+
 
 class Server {
   #port;
@@ -18,6 +20,7 @@ class Server {
 
   start() {
     const app = express();
+    app.use(cors())
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
