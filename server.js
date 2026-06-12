@@ -29,7 +29,7 @@ class Server {
 
     app.use("/api/reservas", this.#routerReserva);
     app.use("/api/usuarios", this.#routerUsuarios);
-    app.use("/api/login", this.#routerAuth);
+    app.use("/api/auth", this.#routerAuth);
 
     const PORT = this.#port;
     const server = app.listen(PORT, () =>
