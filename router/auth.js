@@ -1,5 +1,6 @@
 import express from "express"
 import AuthController from "../controller/auth.js"
+import verificarToken from "../middleware/auth.js"
 
 class RouterAuth{
     #controlador
@@ -11,7 +12,8 @@ class RouterAuth{
     config(){
         const router = express.Router()
 
-        router.post('/',this.#controlador.login)
+        router.post('/login', this.#controlador.login)
+        router.get('/me', verificarToken, this.#controlador.me)
 
         return router
     }
