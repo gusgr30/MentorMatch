@@ -17,6 +17,15 @@ class ControllerAuth {
             res.status(err.status || 500).json({error: err.message})
         }
     }
+
+    me = async (req, res) => {
+        try {
+            const usuario = await this.#servicio.obtenerPorId(req.usuario.id)
+            res.json(usuario)
+        } catch(err) {
+            res.status(err.status || 500).json({error: err.message})
+        }
+    }
 }
 
 export default ControllerAuth
