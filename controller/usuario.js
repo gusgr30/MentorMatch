@@ -11,7 +11,8 @@ class UsuarioController {
   obtenerUsuarios = async (req, res) => {
     try {
       const { id } = req.params;
-      const usuarios = await this.#servicio.obtenerUsuarios(id);
+      const { rol } = req.query;
+      const usuarios = await this.#servicio.obtenerUsuarios(id, rol);
       res.json(usuarios);
     } catch (error) {
       res

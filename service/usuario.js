@@ -12,13 +12,18 @@ class UsuarioServicio {
     this.#modelo = UsuariosFactory.get(modo);
   }
 
-  obtenerUsuarios = async (id) => {
+  obtenerUsuariosPorRol = async (rol) => {
+    return await this.#modelo.obtenerUsuariosPorRol(rol);
+  };
+
+  obtenerUsuarios = async (id, rol) => {
     if (id) {
-      const usuario = await this.#modelo.obtenerUsuarioPorId(id);
-      return usuario;
+      return await this.#modelo.obtenerUsuarioPorId(id);
     }
-    const usuarios = await this.#modelo.obtenerUsuarios();
-    return usuarios;
+    if (rol) {
+      return await this.#modelo.obtenerUsuariosPorRol(rol);
+    }
+    return await this.#modelo.obtenerUsuarios();
   };
 
   guardarUsuario = async (usuario) => {
