@@ -42,9 +42,22 @@ class ReservaServicio {
     return reservas;
   };
 
-  obtenerReservasPorUsuario = async (userId) =>{
-    const reservas = await this.#modelo.obtenerReservasPorUsuario(userId)
-    return reservas
+  obtenerReservasPorUsuario = async (userId) => {
+    const reservas = await this.#modelo.obtenerReservasPorUsuario(userId);
+
+    const reservasEnriquecidas = await Promise.all(
+      reservas.map(async (reserva) => {
+        const mentor = await this.#usuarioServicio.obtenerUsuarios(reserva.mentorId);
+        const student = await this.#usuarioServicio.obtenerUsuarios(reserva.studentId);
+        return {
+          ...reserva,
+          mentor: mentor ? { nombre: mentor.nombre, fotoUrl: mentor.fotoUrl } : null,
+          student: student ? { nombre: student.nombre, fotoUrl: student.fotoUrl } : null,
+        };
+      })
+    );
+
+    return reservasEnriquecidas;
   }
 
   guardarReserva = async (datosReserva) => {

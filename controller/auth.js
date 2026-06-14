@@ -21,7 +21,7 @@ class ControllerAuth {
     me = async (req, res) => {
         try {
             const usuario = await this.#servicio.obtenerPorId(req.usuario.id)
-            res.json(usuario)
+            res.json({...usuario,_id:req.usuario.id})
         } catch(err) {
             res.status(err.status || 500).json({error: err.message})
         }

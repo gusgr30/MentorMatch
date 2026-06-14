@@ -35,6 +35,12 @@ class UsuariosMongoDB {
     return usuario;
   };
 
+  obtenerUsuariosPorRol = async (rol) => {
+    if (!CnxMongoDB.connectionOK)
+      throw new Error("Error de conexión a base de datos");
+    return await CnxMongoDB.db.collection("usuarios").find({ rol }).toArray();
+  };
+
   guardarUsuario = async (usuario) => {
     if (!CnxMongoDB.connectionOK) {
       throw new Error("Error de conexión a base de datos");
