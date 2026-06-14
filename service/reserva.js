@@ -104,10 +104,15 @@ class ReservaServicio {
     const studentObj = {nombre: student.nombre}
     const reservaGuardada = await this.#modelo.guardarReserva(nuevaReserva);
 
-    await Mailer.enviarNotificacionReserva(reservaGuardada, mentorObj, studentObj) 
+    Mailer.enviarNotificacionReserva(reservaGuardada, mentorObj, studentObj) 
 
     return reservaGuardada
   };
+
+  actualizarReserva = async (id, datosAActualizar) => {
+    const reservaActualizada = await this.#modelo.actualizarReserva( id, datosAActualizar);
+    return reservaActualizada;
+  }
 
   cancelarReserva = async (id) => {
     const reservaCancelada = await this.#modelo.cancelarReserva(id);
@@ -136,7 +141,7 @@ class ReservaServicio {
     const studentObj = {nombre: student.nombre, email: student.email}
 
 
-    await Mailer.enviarConfirmacionReserva(reservaConfirmada, mentorObj, studentObj)
+    Mailer.enviarConfirmacionReserva(reservaConfirmada, mentorObj, studentObj)
 
     return reservaConfirmada
   }

@@ -45,6 +45,28 @@ class ReservaController {
     }
   };
 
+  actualizarReserva = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const datosAActualizar = req.body;
+      if (Object.keys(datosAActualizar).length === 0) 
+        throw new Error("Los datos a actualizar están vacíos");
+      
+      const reservaActualizada = await this.#servicio.actualizarReserva(
+        id,
+        datosAActualizar,
+      );
+      res.json(reservaActualizada);
+
+    }catch (error) {
+      res
+        .status(500)
+        .json({ url: req.url, method: req.method, error: error.message });
+    }
+  }
+      
+
+
   cancelarReserva = async (req, res) => {
     try {
       const { id } = req.params;
