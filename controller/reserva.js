@@ -78,17 +78,17 @@ class ReservaController {
     }
   };
 
-  // borrarReserva = async (req, res) => {
-  //   try {
-  //     const { id } = req.params;
-  //     const reservaEliminado = await this.#servicio.borrarReserva(id);
-  //     res.json(reservaEliminado);
-  //   } catch (error) {
-  //     res
-  //       .status(500)
-  //       .json({ url: req.url, method: req.method, error: error.message });
-  //   }
-  // };
+  borrarReserva = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const reservaEliminado = await this.#servicio.borrarReserva(id);
+      res.json(reservaEliminado);
+    } catch (error) {
+      res
+        .status(500)
+        .json({ url: req.url, method: req.method, error: error.message });
+    }
+  };
 }
 
 export default ReservaController;

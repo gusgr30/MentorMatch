@@ -128,10 +128,10 @@ class ReservaServicio {
     return reservaConfirmada
   }
 
-  // borrarReserva = async (id) => {
-  //   const reservaEliminado = await this.#modelo.borrarReserva(id);
-  //   return reservaEliminado;
-  // };
+  borrarReserva = async (id) => {
+    const reservaEliminado = await this.#modelo.borrarReserva(id);
+    return reservaEliminado;
+  };
 }
 
 export default ReservaServicio;

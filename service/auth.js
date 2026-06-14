@@ -18,8 +18,8 @@ class ServiceAuth {
       error.status = 404;
       throw error;
     }
-    const { email, nombre, rol, fotoUrl, mentorProfile } = usuario;
-    return { email, nombre, rol, fotoUrl, mentorProfile };
+    const { _id, email, nombre, rol, fotoUrl, mentorProfile } = usuario;
+    return { _id, email, nombre, rol, fotoUrl, mentorProfile };
   };
 
   login = async (emailBody, passBody) => {
@@ -29,7 +29,7 @@ class ServiceAuth {
       error.status = 404;
       throw error;
     }
-    const { email, password, nombre, rol, fotoUrl, mentorProfile } = usuario;
+    const { _id, email, password, nombre, rol, fotoUrl, mentorProfile } = usuario;
 
     const valido = await bcrypt.compare(passBody, password);
 
@@ -45,7 +45,7 @@ class ServiceAuth {
 
     return {
       token,
-      user: { email, nombre, rol, fotoUrl, mentorProfile },
+      user: { _id, email, nombre, rol, fotoUrl, mentorProfile },
     };
   };
 }

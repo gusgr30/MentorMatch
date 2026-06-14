@@ -17,7 +17,7 @@ class RouterReservas {
     router.post("/", verificarToken, this.#controlador.guardarReserva);
     router.put("/:id/cancelar", verificarToken, this.#controlador.cancelarReserva);
     router.put("/:id/confirmar", verificarToken, this.#controlador.confirmarReserva);
-    // router.delete("/:id", this.#controlador.borrarReserva);
+    router.delete("/:id", this.#controlador.borrarReserva);
 
     return router;
   }

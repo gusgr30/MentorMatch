@@ -98,17 +98,17 @@ class ReservasMongoDB {
     return await this.obtenerReserva(id);
   };
 
-  // borrarReserva = async (id) => {
-  //   if (!CnxMongoDB.connectionOK)
-  //     throw new Error("Error de conexión a base de datos");
+  borrarReserva = async (id) => {
+    if (!CnxMongoDB.connectionOK)
+      throw new Error("Error de conexión a base de datos");
 
-  //   const reservaEliminado = await this.obtenerReserva(id);
-  //   await CnxMongoDB.db.collection("reservas").deleteOne({
-  //     _id: new ObjectId(id),
-  //   });
+    const reservaEliminado = await this.obtenerReserva(id);
+    await CnxMongoDB.db.collection("reservas").deleteOne({
+      _id: new ObjectId(id),
+    });
 
-  //   return reservaEliminado;
-  // };
+    return reservaEliminado;
+  };
 }
 
 export default ReservasMongoDB;
