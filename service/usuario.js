@@ -39,6 +39,10 @@ class UsuarioServicio {
   };
 
   actualizarUsuario = async (id, datosAActualizar) => {
+    if (datosAActualizar.password) {
+      const passHasheada = await bcrypt.hash(datosAActualizar.password, 10); 
+      datosAActualizar.password = passHasheada
+    }
     const usuarioActualizado = await this.#modelo.actualizarUsuario(
       id,
       datosAActualizar,

@@ -80,8 +80,9 @@ class UsuariosMongoDB {
   };
 
   borrarUsuario = async (id) => {
-    if (!CnxMongoDB.connectionOK)
+    if (!CnxMongoDB.connectionOK) {
       throw new Error("Error de conexión a base de datos");
+    }
 
     const usuarioEliminado = await this.obtenerUsuarioPorId(id);
     await CnxMongoDB.db.collection("usuarios").deleteOne({

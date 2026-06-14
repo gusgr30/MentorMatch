@@ -9,24 +9,20 @@ class Mailer{
 
     static async config(){
         try{
-            //Se crea la cuenta SMTP para ethereal.email
-            const cuentaTest = await nodemailer.createTestAccount()
-
             //Se crea un transportador SMTP. Gestiona la conexión con el servicio de mail y envia mensajes.
             //Se crea un transportador y se reutiliza en todos los mails
             Mailer.transporter = nodemailer.createTransport({
-                host: cuentaTest.smtp.host,
-                port: cuentaTest.smtp.port,
-                secure: cuentaTest.smtp.secure,
+                host: 'smtp.ethereal.email',
+                port: 587,
+                secure: false,
                 auth: {
-                    user: cuentaTest.user,
-                    pass: cuentaTest.pass
+                    user: process.env.ETHEREAL_USER,
+                    pass: process.env.ETHEREAL_PASS
                 }
             })
-            console.log('Cuenta de prueba creada: %s', cuentaTest.user)
 
         }catch(err){
-                console.error('Falló la creación de la cuenta de prueba' + err.message)
+                console.error('Falló la creación del transporter  ' + err.message)
                 process.exit(1)
         }
     }
@@ -102,7 +98,7 @@ class Mailer{
                 from: '"MentorMatch" <no-reply@mentormatch.com>',
                 to: student.email,
                 subject: `¡Mentoria con ${mentor.nombre} confirmada!`,
-                html:`<h1>Mentoria confirmada</h1>
+                html: `<h1>Mentoria confirmada</h1>
                 <br>
                 <p>Hola ${student.nombre}! ${mentor.nombre} ha confirmado la reserva de la mentoria.</p>
                 <br>

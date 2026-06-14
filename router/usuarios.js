@@ -16,7 +16,7 @@ class RouterUsuarios {
     router.get("{/:id}", verificarToken, this.#controlador.obtenerUsuarios);
     router.post("/", upload.single("fotoUrl"), this.#controlador.guardarUsuario);
     router.put("/:id", verificarToken, upload.single("fotoUrl"), this.#controlador.actualizarUsuario);
-    // router.delete("/:id", this.#controlador.borrarUsuario);
+    router.delete("/:id", this.#controlador.borrarUsuario);
 
     return router;
   }
