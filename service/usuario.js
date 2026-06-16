@@ -34,7 +34,7 @@ class UsuarioServicio {
     const usuarioGuardado = await this.#modelo.guardarUsuario(
       usuarioInstancia.get(),
     );
-    await Mailer.enviarBienvenida(usuarioInstancia.get())
+    Mailer.enviarBienvenida(usuarioInstancia.get())
     return usuarioGuardado;
   };
 
