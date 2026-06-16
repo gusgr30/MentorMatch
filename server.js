@@ -30,6 +30,8 @@ class Server {
     app.use(express.static("public/"));
     app.use("/uploads", express.static("uploads"));
 
+    app.get("/api/health", (req, res) => res.json({ ok: true }));
+
     app.use("/api/reservas", this.#routerReserva);
     app.use("/api/usuarios", this.#routerUsuarios);
     app.use("/api/auth", this.#routerAuth);
