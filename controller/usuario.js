@@ -25,6 +25,10 @@ class UsuarioController {
     try {
       const datosUsuario = req.body;
 
+      if (req.body.mentorProfile && typeof req.body.mentorProfile === 'string') {
+          req.body.mentorProfile = JSON.parse(req.body.mentorProfile);
+      }
+
       // Si el middleware proceso una imagen con exito, capturamos su ruta
       if (req.file) {
         // Guardamos la URL relativa
