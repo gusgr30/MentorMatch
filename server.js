@@ -29,7 +29,7 @@ class Server {
 
     app.use(express.static("public/"));
     app.use("/uploads", express.static("uploads"));
-
+    //api para despertar a render para el front
     app.get("/api/health", (req, res) => res.json({ ok: true }));
 
     app.use("/api/reservas", this.#routerReserva);
