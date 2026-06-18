@@ -3,8 +3,8 @@ import ReservaServicio from "../service/reserva.js";
 class ReservaController {
   #servicio = null;
 
-  constructor() {
-    this.#servicio = new ReservaServicio();
+  constructor(persistencia) {
+    this.#servicio = new ReservaServicio(persistencia);
   }
 
   obtenerReservas = async (req, res) => {

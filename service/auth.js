@@ -6,9 +6,9 @@ import config from "../config.js";
 class ServiceAuth {
   #modelo;
 
-  constructor() {
-    const modo = config.MODELO_PERSISTENCIA;
-    this.#modelo = UsuariosFactory.get(modo);
+  constructor(persistencia) {
+    // const modo = config.MODELO_PERSISTENCIA;
+    this.#modelo = UsuariosFactory.get(persistencia);
   }
 
   obtenerPorId = async (id) => {

@@ -9,9 +9,9 @@ class ReservaServicio {
   #modelo = null;
   #usuarioServicio = null;
 
-  constructor() {
-    const modo = config.MODELO_PERSISTENCIA;
-    this.#modelo = ReservasFactory.get(modo);
+  constructor(persistencia) {
+    // const modo = config.MODELO_PERSISTENCIA;
+    this.#modelo = ReservasFactory.get(persistencia);
     this.#usuarioServicio = new UsuarioServicio();
   }
 
