@@ -4,27 +4,36 @@ import config from "../config.js";
 class CnxMongoDB {
   static db = null;
   static connectionOK = false;
+  static client = null;
+
   static conectar = async () => {
-    try {
+    // try {
       console.log("Conectando a MongoDB...");
 
-      const client = new MongoClient(config.STRCNX);
-      await client.connect();
+      CnxMongoDB.client = new MongoClient(config.STRCNX);
+      await CnxMongoDB.client.connect();
 
       console.log("Conexión a MongoDB exitosa!");
 
-      CnxMongoDB.db = client.db(config.BASE);
+      CnxMongoDB.db = CnxMongoDB.client.db(config.BASE);
       CnxMongoDB.connectionOK = true;
 
-      //Creamos el indice unico sobre el email para evitar duplicidad
       await CnxMongoDB.db.collection("usuarios").createIndex(
-        {email: 1},    
-        {unique: true}  //no permite mails repetidos
-      )
-      console.log("Índice único de email creado")
+        { email: 1 },
+        { unique: true },
+      );
+      console.log("Índice único de email creado");
 
-    } catch (error) {
-      console.log("Error al conectar a MongoDB:", error);
+    // } catch (error) {
+    //   console.log("Error al conectar a MongoDB:", error.message);
+    //   throw error;
+    // }
+  };
+
+  static desconectar = async () => {
+    if (!CnxMongoDB.connectionOK) return;
+    if (CnxMongoDB.client) {
+      await CnxMongoDB.client.close();
     }
   };
 }
