@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test/*.test.js --timeout 10000",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "test-manual": "node test/api-test-manual.js",
+    "test-e2e-api-ext": "mocha test/api-ext.test.js --timeout 10000",
+    "test-e2e-api-int": "mocha test/api-int.test.js --timeout 10000"
   },
   "keywords": [],
   "author": "JR-GR",
@@ -21,6 +24,12 @@
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.2.0",
     "multer": "^2.1.1",
-    "nodemailer": "^8.0.11"
+    "nodemailer": "^8.0.11",
+    "supertest": "^7.2.2"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^10.5.0",
+    "chai": "^6.2.2",
+    "mocha": "^11.7.6"
   }
 }
