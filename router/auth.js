@@ -6,7 +6,7 @@ class RouterAuth{
     #controlador
     
     constructor(persistencia){
-        this.#controlador = new AuthController()
+        this.#controlador = new AuthController(persistencia)
     }
 
     config(){
