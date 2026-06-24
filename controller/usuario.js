@@ -16,7 +16,7 @@ class UsuarioController {
       res.json(usuarios);
     } catch (error) {
       res
-        .status(500)
+        .status(error.status || 500)
         .json({ url: req.url, method: req.method, error: error.message });
     }
   };
@@ -46,7 +46,7 @@ class UsuarioController {
         fs.unlink(req.file.path, () => {});
       }
       res
-        .status(500)
+        .status(error.status || 500)
         .json({ url: req.url, method: req.method, error: error.message });
     }
   };
@@ -69,7 +69,7 @@ class UsuarioController {
       res.json(usuarioActualizado);
     } catch (error) {
       res
-        .status(500)
+        .status(error.status || 500)
         .json({ url: req.url, method: req.method, error: error.message });
     }
   };
@@ -81,7 +81,7 @@ class UsuarioController {
       res.json(usuarioEliminado);
     } catch (error) {
       res
-        .status(500)
+        .status(error.status || 500)
         .json({ url: req.url, method: req.method, error: error.message });
     }
   };
