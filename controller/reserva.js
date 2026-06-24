@@ -14,7 +14,7 @@ class ReservaController {
       res.json(reservas);
     } catch (error) {
       res
-        .status(500)
+        .status(error.status || 500)
         .json({ url: req.url, method: req.method, error: error.message });
     }
   };
@@ -26,7 +26,9 @@ class ReservaController {
       res.json(reservas)
 
     }catch(err){
-      res.status(err.status || 500).json({error: err.message})
+      res
+        .status(err.status || 500)
+        .json({error: err.message})
     }
   }
 
@@ -40,7 +42,7 @@ class ReservaController {
       res.json(reservaGuardada);
     } catch (error) {
       res
-        .status(500)
+        .status(error.status || 500)
         .json({ url: req.url, method: req.method, error: error.message });
     }
   };
@@ -60,7 +62,7 @@ class ReservaController {
 
     }catch (error) {
       res
-        .status(500)
+        .status(error.status || 500)
         .json({ url: req.url, method: req.method, error: error.message });
     }
   }
@@ -74,7 +76,7 @@ class ReservaController {
       res.json(reservaCancelada);
     } catch (error) {
       res
-        .status(500)
+        .status(error.status || 500)
         .json({ url: req.url, method: req.method, error: error.message });
     }
   };
@@ -107,7 +109,7 @@ class ReservaController {
       res.json(reservaEliminado);
     } catch (error) {
       res
-        .status(500)
+        .status(error.status || 500)
         .json({ url: req.url, method: req.method, error: error.message });
     }
   };
