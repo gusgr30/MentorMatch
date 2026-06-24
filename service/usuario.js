@@ -35,6 +35,7 @@ class UsuarioServicio {
       usuarioInstancia.get(),
     );
     Mailer.enviarBienvenida(usuarioInstancia.get())
+      .catch(err => console.log('Mail de bienvenida no enviado: ' + err.message))
     return usuarioGuardado;
   };
 
