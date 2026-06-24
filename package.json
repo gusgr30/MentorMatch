@@ -9,7 +9,8 @@
     "dev": "nodemon index.js",
     "test-manual": "node test/api-test-manual.js",
     "test-e2e-api-ext": "mocha test/api-ext.test.js --timeout 10000",
-    "test-e2e-api-int": "mocha test/api-int.test.js --timeout 10000"
+    "test-e2e-api-int": "mocha test/api-int.test.js --timeout 10000",
+    "test-unit-api-mail": "mocha test/email-confirmacion.test.js --timeout 10000"
   },
   "keywords": [],
   "author": "JR-GR",
