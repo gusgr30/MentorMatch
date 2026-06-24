@@ -3,10 +3,9 @@
 
 import nodemailer from 'nodemailer'
 import { ROLES } from '../model/constants/index.js'
-
 class Mailer{
     static transporter = null
-
+    
     static async config(){
         try{
             //Se crea un transportador SMTP. Gestiona la conexión con el servicio de mail y envia mensajes.
@@ -68,7 +67,7 @@ class Mailer{
                 subject: '¡Tienes una nueva reserva en MentorMatch!',
                 html: `<p>Hola ${mentor.nombre}. Te escribimos para avisarte que ${student.nombre} acaba de reservar una sesión de mentoría con vos. Presiona el siguiente boton para conocer mas detalles y confirmarla lo antes posible.</p>
                 <br>
-                <a href="localhost:8080/reservas/${reserva._id}"><button>Ver reserva</button></a>`
+                 <a href="${process.env.FRONT_URL}/portal/dashboard"><button>Ver reserva</button></a>`
             })
             console.log('Mensaje enviado: %s', info.messageId)
             console.log('Preview: ' + nodemailer.getTestMessageUrl(info))
@@ -91,7 +90,7 @@ class Mailer{
                 <br>
                 <p>Hola ${mentor.nombre}! Has confirmado la reserva para la mentoria con ${student.nombre}.</p>
                 <br>
-                <p>La videollamada está agendada para el dia <strong>${reserva.fechaHora.toLocaleString()}</strong> y vas a poder ingresar a la clase directamente a través de este enlace: <a href="${reserva.urlZoom}"><strong>${reserva.urlZoom}</strong></a>. Te recomendamos conectarte unos minutos antes para revisar que todo funcione bien. ¡Que tengas una excelente clase!</p>` ,
+                <p>La videollamada está agendada para el dia <strong>${reserva.fechaHora.toLocaleString('es-AR', {hour12: false})}</strong> y vas a poder ingresar a la clase directamente a través de este enlace: <a href="${reserva.urlZoom}"><strong>${reserva.urlZoom}</strong></a>. Te recomendamos conectarte unos minutos antes para revisar que todo funcione bien. ¡Que tengas una excelente clase!</p>` ,
             })
             
             const infoStudent = await Mailer.transporter.sendMail({
