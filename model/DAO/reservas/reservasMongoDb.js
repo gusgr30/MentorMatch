@@ -69,8 +69,6 @@ class ReservasMongoDB {
     if (!CnxMongoDB.connectionOK)
       throw new Error("Error de conexión a base de datos");
 
-    const reservaActual = await this.obtenerReserva(id);
-
     await CnxMongoDB.db
       .collection("reservas")
       .updateOne({ _id: new ObjectId(id) }, { $set: datosAActualizar });

@@ -4,7 +4,7 @@ import RouterUsuarios from "./router/usuarios.js";
 import RouterAuth from "./router/auth.js";
 import RouterConfig from "./router/config.js";
 import cors from "cors";
-
+import CnxMongoDB from "./model/DBMongo.js";
 
 class Server {
   #port;
@@ -12,18 +12,21 @@ class Server {
   #routerUsuarios;
   #routerAuth;
   #routerConfig;
+  #persistencia = "";
+  #server = null;
 
-  constructor(port) {
+  constructor(port, persistencia) {
     this.#port = port;
-    this.#routerReserva = new RouterReservas().config();
-    this.#routerUsuarios = new RouterUsuarios().config();
+    this.#persistencia = persistencia;
+    this.#routerReserva = new RouterReservas(persistencia).config();
+    this.#routerUsuarios = new RouterUsuarios(persistencia).config();
     this.#routerAuth = new RouterAuth().config();
-    this.#routerConfig = new RouterConfig().config();
+    this.#routerConfig = new RouterConfig(persistencia).config();
   }
 
-  start() {
+  async start() {
     const app = express();
-    app.use(cors())
+    app.use(cors());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
@@ -37,11 +40,30 @@ class Server {
     app.use("/api/auth", this.#routerAuth);
     app.use("/api/config", this.#routerConfig);
 
-    const PORT = this.#port;
-    const server = app.listen(PORT, () =>
-      console.log(`Servidor de MentorMatch escuchando en puerto ${PORT}`),
-    );
-    server.on("error", (error) => console.log("Error en el servidor " + error));
+    try {
+      if (this.#persistencia === "MONGODB") {
+        await CnxMongoDB.conectar();
+      }
+
+      const PORT = this.#port;
+      this.#server = app.listen(PORT, () =>
+        console.log(`Servidor de MentorMatch escuchando en puerto ${PORT}`),
+      );
+      this.#server.on("error", (error) =>
+        console.log("Error en el servidor " + error),
+      );
+    } catch (error) {
+      console.log(`Error en conexion de base de datos: ${error.message}`);
+    }
+    return app;
+  }
+
+  async stop() {
+    if (this.#server != null) {
+      this.#server.close();
+      await CnxMongoDB.desconectar();
+      this.#server = null;
+    }
   }
 }
 

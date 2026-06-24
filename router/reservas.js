@@ -5,8 +5,8 @@ import verificarToken from "../middleware/auth.js";
 class RouterReservas {
   #controlador;
 
-  constructor() {
-    this.#controlador = new ReservaController();
+  constructor(persistencia) {
+    this.#controlador = new ReservaController(persistencia);
   }
 
   config() {

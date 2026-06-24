@@ -7,9 +7,9 @@ import Mailer from "./email.js";
 class UsuarioServicio {
   #modelo = null;
 
-  constructor() {
-    const modo = config.MODELO_PERSISTENCIA;
-    this.#modelo = UsuariosFactory.get(modo);
+  constructor(persistencia) {
+    // const modo = config.MODELO_PERSISTENCIA;
+    this.#modelo = UsuariosFactory.get(persistencia);
   }
 
   obtenerUsuariosPorRol = async (rol) => {
@@ -35,6 +35,7 @@ class UsuarioServicio {
       usuarioInstancia.get(),
     );
     Mailer.enviarBienvenida(usuarioInstancia.get())
+      .catch(err => console.log('Mail de bienvenida no enviado: ' + err.message))
     return usuarioGuardado;
   };
 

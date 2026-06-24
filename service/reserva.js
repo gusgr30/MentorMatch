@@ -9,9 +9,9 @@ class ReservaServicio {
   #modelo = null;
   #usuarioServicio = null;
 
-  constructor() {
-    const modo = config.MODELO_PERSISTENCIA;
-    this.#modelo = ReservasFactory.get(modo);
+  constructor(persistencia) {
+    // const modo = config.MODELO_PERSISTENCIA;
+    this.#modelo = ReservasFactory.get(persistencia);
     this.#usuarioServicio = new UsuarioServicio();
   }
 
@@ -105,6 +105,7 @@ class ReservaServicio {
     const reservaGuardada = await this.#modelo.guardarReserva(nuevaReserva);
 
     Mailer.enviarNotificacionReserva(reservaGuardada, mentorObj, studentObj) 
+      .catch(err => console.log('Mail de notificación no enviado: ' + err.message))
 
     return reservaGuardada
   };
@@ -142,6 +143,7 @@ class ReservaServicio {
 
 
     Mailer.enviarConfirmacionReserva(reservaConfirmada, mentorObj, studentObj)
+      .catch(err => console.log('Mail de confirmación no enviado: ' + err.message))
 
     return reservaConfirmada
   }

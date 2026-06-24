@@ -3,8 +3,8 @@ import ServiceAuth from '../service/auth.js'
 class ControllerAuth {
     #servicio
 
-    constructor(){
-        this.#servicio = new ServiceAuth()
+    constructor(persistencia){
+        this.#servicio = new ServiceAuth(persistencia)
     }
 
     login = async (req, res) => {

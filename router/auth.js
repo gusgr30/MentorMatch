@@ -5,8 +5,8 @@ import verificarToken from "../middleware/auth.js"
 class RouterAuth{
     #controlador
     
-    constructor(){
-        this.#controlador = new AuthController()
+    constructor(persistencia){
+        this.#controlador = new AuthController(persistencia)
     }
 
     config(){

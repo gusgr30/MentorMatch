@@ -109,6 +109,8 @@ class Mailer{
             console.log('Preview: ' + nodemailer.getTestMessageUrl(infoMentor))
             console.log('Mensaje enviado: %s', infoStudent.messageId)
             console.log('Preview: ' + nodemailer.getTestMessageUrl(infoStudent))
+
+            return {infoMentor, infoStudent}
             
         }catch(err){
             const error = new Error(err.message)
