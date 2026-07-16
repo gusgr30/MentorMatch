@@ -3,6 +3,7 @@ import RouterReservas from "./router/reservas.js";
 import RouterUsuarios from "./router/usuarios.js";
 import RouterAuth from "./router/auth.js";
 import RouterConfig from "./router/config.js";
+import RouterIa from "./router/ia.js";
 import cors from "cors";
 import CnxMongoDB from "./model/DBMongo.js";
 
@@ -12,6 +13,7 @@ class Server {
   #routerUsuarios;
   #routerAuth;
   #routerConfig;
+  #routerIa;
   #persistencia = "";
   #server = null;
 
@@ -22,6 +24,7 @@ class Server {
     this.#routerUsuarios = new RouterUsuarios(persistencia).config();
     this.#routerAuth = new RouterAuth().config();
     this.#routerConfig = new RouterConfig(persistencia).config();
+    this.#routerIa = new RouterIa().config();
   }
 
   async start() {
@@ -39,6 +42,7 @@ class Server {
     app.use("/api/usuarios", this.#routerUsuarios);
     app.use("/api/auth", this.#routerAuth);
     app.use("/api/config", this.#routerConfig);
+    app.use("/api/ia", this.#routerIa);
 
     try {
       if (this.#persistencia === "MONGODB") {
