@@ -16,8 +16,7 @@ describe('*** TEST UNITARIO - CONFIRMACION POR MAIL ***', () => {
 
 
     beforeEach(() => {
-        emailsEnviados = []
-        
+        emailsEnviados = [] 
         // reemplazo el transporter real por uno falso
         Mailer.transporter = {
             sendMail: async (opciones) => {
